@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<history>
+   <processor signature="4.8.3 -mcpu=cortex-m3 -mthumb -g -nostartfiles -Map=test.map -O0 --gc-sections -LC:\CooCox\CoIDE\configuration\ProgramData\test -TC:\CooCox\CoIDE\configuration\ProgramData\test/arm-gcc-link.ld -g">
+      <target file="test.elf" lastModified="14723bb1616">
+         <source file="..\obj\Graphics.o" lastModified="1471e6b4a2e"/>
+         <source file="..\obj\stm32l1xx_gpio.o" lastModified="1470cd0b3fe"/>
+         <source file="..\obj\stm32l1xx_pwr.o" lastModified="1470cd0b43a"/>
+         <source file="..\obj\RTC_Driver.o" lastModified="14721c950ea"/>
+         <source file="..\obj\stm32l1xx_flash.o" lastModified="1470cd0b492"/>
+         <source file="..\obj\USART_Example.o" lastModified="147177364cd"/>
+         <source file="..\obj\Msg_queue.o" lastModified="14720e90382"/>
+         <source file="..\obj\stm32l1xx_exti.o" lastModified="14717ea55a9"/>
+         <source file="..\obj\stm32l1xx_rcc.o" lastModified="1470cd0b511"/>
+         <source file="..\obj\system_stm32l1xx.o" lastModified="1470cd0b546"/>
+         <source file="..\obj\main.o" lastModified="14723ba2cf8"/>
+         <source file="..\obj\stm32l1xx_lcd.o" lastModified="1470cd0b5b0"/>
+         <source file="..\obj\TIM_Example.o" lastModified="1471e49ce6d"/>
+         <source file="..\obj\stm32l1xx_syscfg.o" lastModified="1470cd0b61d"/>
+         <source file="..\obj\stm32l1xx_dma.o" lastModified="1470cd0b655"/>
+         <source file="..\obj\stm32l1xx_it.o" lastModified="1470cd0b683"/>
+         <source file="..\obj\startup_stm32l1xx_mdp.o" lastModified="1470cd0b6a9"/>
+         <source file="..\obj\SPI_Example.o" lastModified="1470cd0b6da"/>
+         <source file="..\obj\stm32l1xx_usart.o" lastModified="1470cd0b723"/>
+         <source file="..\obj\stm32l1xx_spi.o" lastModified="1470cd0b765"/>
+         <source file="..\obj\Power_Driver.o" lastModified="14723b7c27a"/>
+         <source file="..\obj\misc.o" lastModified="1470cd0b797"/>
+         <source file="..\obj\stm32l1xx_rtc.o" lastModified="1471788c441"/>
+         <source file="..\obj\stm32l1xx_tim.o" lastModified="1470cd0b811"/>
+         <source file="..\obj\GPIO_Example.o" lastModified="1470cd0b840"/>
+         <source file="..\obj\LCD_Driver.o" lastModified="14723bb1450"/>
+      </target>
+   </processor>
+</history>
