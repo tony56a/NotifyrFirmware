@@ -13,7 +13,7 @@ void enqeue(uint8_t *msg){
 		dequeue();
 	}
 	last = (last+1) % QUEUE_SIZE;
-
+	memset(msg_string[last],0,200);
 	if(msgLength>35){
 		memcpy(msg_string[last],msg,35);
 		memset((uint8_t*)(msg_string[last]+35),'.',3);
