@@ -101,9 +101,6 @@
 /* Private macro -------------------------------------------------------------*/
 #define countof(a)   (sizeof(a) / sizeof(*(a)))
 
-uint8_t NbrOfDataToRead = RXBUFFERSIZE;
-__IO uint8_t TxCounter = 0;
-__IO uint16_t RxCounter = 0;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -125,6 +122,8 @@ void NMI_Handler(void) {
  * @retval None
  */
 void HardFault_Handler(void) {
+	writeString("REKTREKTREKTREKT");
+	refresh();
 	/* Go to infinite loop when Hard Fault exception occurs */
 	while (1) {
 	}

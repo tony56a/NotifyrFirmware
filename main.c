@@ -16,6 +16,7 @@ extern uint8_t wrap;
 
 int hour = 0;
 int minute = 0;
+int i = 0;
 
 char timestring[9] = " ??:??  ";
 
@@ -42,7 +43,6 @@ void initTimeOut(){
 }
 
 void printTime() {
-	int i=0;
 	getTime(&hour, &minute);
 	if(hour >=0 || minute >=0){
 		timestring[1] = (hour / 10) + 48;
@@ -60,7 +60,7 @@ void printTime() {
 		write(i + 49);
 		write(':');
 		writeString((char *) getMsg(i));
-		setCursor(X_PADDING, cursor_y + 16 * textsize);
+		setCursor(X_PADDING, cursor_y + 8 * textsize);
 	}
 	refresh();
 }
@@ -80,6 +80,7 @@ void printNewMsg() {
 	refresh();
 	setCursor(X_PADDING, 0);
 	enqeue ((uint8_t *)(RxBuffer+1));
+	memset(RxBuffer,0,201);
 }
 
 int main(void)
@@ -87,34 +88,20 @@ int main(void)
 
 	initTimeOut();
 	initQueue();
-
 	UART_init();
 	LCDInit();
 	clearMem(WHITE);
 	LCDStart();
-//	setTextSize(8);
-//	setCursor(30,Y_PADDING );
-//	writeString(timestring);
-//	setCursor(X_PADDING, cursor_y+8*textsize);
-//	setTextSize(2);
-//	for(i=0; i<QUEUE_SIZE/2; i++){
-//		write(i+48);
-//		write(':');
-//		writeString(getMsg(i));
-//		setCursor(X_PADDING, cursor_y+8*textsize);
-//	}
+
 	refresh();
 	while (1) {
 		if (msg_flag) {
-//			printNewMsg();
-//			msg_flag = 0;
-//			START_TIMEOUT;
 			if(RxBuffer[0] == 1){
 				printNewMsg();
 				START_TIMEOUT;
 			} else if(RxBuffer[0] == 2){
-				uint8_t h = RxBuffer[1];
-				uint8_t m = RxBuffer[2];
+				uint8_t h = RxBuffer[1]-1;
+				uint8_t m = RxBuffer[2]-1;
 				uint8_t s = RxBuffer[3]-1; //since it's probably a bad idea to have a data value that's the same as the string terminator
 				RTCinit(h,m,s);
 				rtc_time_flag = 1;

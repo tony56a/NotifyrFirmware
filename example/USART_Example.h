@@ -16,18 +16,17 @@
  * @{
  */
 
-#define RXBUFFERSIZE   201
+#define RXBUFFERSIZE   500
 
 /* Private variables ---------------------------------------------------------*/
 USART_InitTypeDef USART_InitStructure;
 extern uint8_t NbrOfDataToTransfer;
-extern uint8_t NbrOfDataToRead;
-extern __IO uint8_t TxCounter;
-extern __IO uint16_t RxCounter;
+
+
 
 uint8_t RxBuffer[RXBUFFERSIZE];
 uint8_t msg_flag;
-
+volatile char in;
 /* Private function prototypes -----------------------------------------------*/
 void UART_init();
 #endif

@@ -18,6 +18,7 @@ void enqeue(uint8_t *msg){
 		memcpy(msg_string[last],msg,35);
 		memset((uint8_t*)(msg_string[last]+35),'.',3);
 	}else{
+		memset(msg_string[last],0,256);
 		memcpy(msg_string[last],msg,msgLength);
 	}
 	count++;
@@ -30,13 +31,20 @@ void dequeue(){
 	}
 }
 uint8_t* getMsg(int pos){
-	if(pos > last && pos < QUEUE_SIZE){
-		return msg_string[QUEUE_SIZE-(pos-last)];
-	} else if(pos <= last){
-		return msg_string[(last-pos)];
-	} else{
-		return nullString;
+
+	int final_position = 0;
+	uint8_t* returnValue;
+	if(pos > last && pos < QUEUE_SIZE && QUEUE_SIZE- (pos-last) > 0){
+		final_position = QUEUE_SIZE-(pos-last);
+	}else if(pos<=last){
+		final_position = last-pos;
 	}
 
+	if(pos >=0 && pos < QUEUE_SIZE){
+		returnValue =  msg_string[final_position];
+	}else{
+		returnValue = nullString;
+	}
+	return returnValue;
 }
 

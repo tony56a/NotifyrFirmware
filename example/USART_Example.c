@@ -28,6 +28,9 @@
 #include "USART_Example.h"
 
 /* Private functions ---------------------------------------------------------*/
+NbrOfDataToRead = RXBUFFERSIZE;
+TxCounter = 0;
+RxCounter = 0;
 
 
 void UART_init(){
@@ -36,43 +39,45 @@ void UART_init(){
 	USART_InitTypeDef USART_InitStructure;
 
 	/* Pin configuration */
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11 | GPIO_Pin_12;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-	GPIO_Init(GPIOC, &GPIO_InitStructure);
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
 	/* Alternate function conf */
-	GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_USART1);
-	GPIO_PinAFConfig(GPIOC, GPIO_PinSource11, GPIO_AF_USART1);
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_USART1);
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource12, GPIO_AF_USART1);
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART1);
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource11, GPIO_AF_USART1);
 
 	NVIC_InitTypeDef NVIC_InitStructure;
 
 	/* Enable the USARTx Interrupt */
-	NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 	/* Enable the USART 1 clock */
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
-	USART_InitStructure.USART_BaudRate = 19200;
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+	USART_InitStructure.USART_BaudRate = 57600;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	USART_InitStructure.USART_Parity = USART_Parity_No;
-	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_RTS_CTS;
 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-	USART_Init(USART3, &USART_InitStructure);
-	USART_ITConfig(USART3, USART_IT_RXNE , ENABLE);
-	USART_Cmd(USART3, ENABLE);
+	USART_Init(USART1, &USART_InitStructure);
+	USART_ITConfig(USART1, USART_IT_RXNE , ENABLE);
+	USART_Cmd(USART1, ENABLE);
 }
 
 void UART_write(char *Buffer, uint32_t Len) {
 	for (; Len > 0; Len--) {
-		while (USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
-		USART_SendData(USART3, *Buffer);
+		while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+		USART_SendData(USART1, *Buffer);
 		Buffer++;
 	}
 }
@@ -82,10 +87,10 @@ void UART_write(char *Buffer, uint32_t Len) {
  * @param  None
  * @retval None
  */
-void USART3_IRQHandler(void) {
-	if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET) {
+void USART1_IRQHandler(void) {
+	if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {
 		/* Read one byte from the receive data register */
-		char in = USART_ReceiveData(USART3) & 0x7F;
+		in = USART_ReceiveData(USART1) & 0x7F;
 
 		if (RxCounter < NbrOfDataToRead && in != 0) {
 			RxBuffer[RxCounter++] = (in);
